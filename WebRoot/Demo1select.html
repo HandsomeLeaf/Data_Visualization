@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Bootstrap 实例 - 基本的表格</title>
+<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/highcharts.js"></script>
+
+<div>
+	<select id="dpdField1">
+	</select>
+	<select id="dpDate">
+	</select>
+</div>
+<script type="text/javascript">
+	//动态绑定下拉框项  
+	
+		var url = "/Data_Visualization/SelectResultServlet";
+		$.ajax({
+			type : "post",
+			async : false,
+			url : url,
+			success : function(msg) {
+				data = JSON.parse(msg);
+				var company = data.companyList;
+						var optionstring = "";
+						for ( var i = 0; i < company.length; i++) {
+							optionstring += "<option value=\"" + (i + 1)
+									+ "\" >" + company[i] + "</option>";
+
+						}
+						$("#dpdField1").html(
+								"<option value='请选择'>请选择...</option> "
+										+ optionstring);
+										
+				
+				var datelist = data.dateList;
+						var optionstring = "";
+						for ( var i = 0; i < datelist.length; i++) {
+							optionstring += "<option value=\"" + (i + 1)
+									+ "\" >" + datelist[i] + "</option>";
+
+						}
+						$("#dpDate").html(
+								"<option value='请选择'>请选择...</option> "
+										+ optionstring);
+				
+			},
+				error : function(msg) {
+						alert("出错了！");
+					}
+				});
+		$('#dpdField1').change(function(){
+		alert($(this).children('option:selected').text());
+		});
+	
+</script>
+
+
+</body>
+</html>

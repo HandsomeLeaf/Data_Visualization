@@ -13,7 +13,47 @@
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/TestServlet</url-pattern>
-  </servlet-mapping>	
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>JsonResultServlet</servlet-name>
+    <servlet-class>cn.ideas.datavisulization.web.JsonResultServlet</servlet-class>
+  </servlet>
+  
+   <servlet>
+    <servlet-name>MapResultServlet</servlet-name>
+    <servlet-class>cn.ideas.datavisulization.web.MapResultServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>SelectResultServlet</servlet-name>
+    <servlet-class>cn.ideas.datavisulization.web.SelectResultServlet</servlet-class>
+  </servlet>
+
+
+<servlet>
+    <servlet-name>GroupResultServlet</servlet-name>
+    <servlet-class>cn.ideas.datavisulization.web.GroupResultServlet</servlet-class>
+  </servlet>
+ 
+ <servlet-mapping>
+    <servlet-name>GroupResultServlet</servlet-name>
+    <url-pattern>/GroupResultServlet</url-pattern>
+  </servlet-mapping>
+
+
+ <servlet-mapping>
+    <servlet-name>MapResultServlet</servlet-name>
+    <url-pattern>/MapResultServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JsonResultServlet</servlet-name>
+    <url-pattern>/JsonResultServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectResultServlet</servlet-name>
+    <url-pattern>/SelectResultServlet</url-pattern>
+  </servlet-mapping>		
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>

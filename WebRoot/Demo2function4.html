@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>Bootstrap 实例 - 基本的表格</title>
+   <script src="js/jquery-1.8.2.min.js"></script>
+   <script src="js/highcharts.js"></script>
+   
+   <script>
+
+     var obj;
+	 $(function () { 
+	 var url = 'http://localhost:8080/Data_Visualization/GroupResultServlet';
+	  $.ajax({
+	  	type:"post",
+	  	async:false,
+	  	url:url,
+	  	success: function(msg){
+	  	  obj=JSON.parse(msg);
+	  	  //alert(obj.groupkey);
+	  	}
+	  });
+	  
+	  
+    $('#applyPatentTrend').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: '专利信息'
+        },
+        xAxis: {
+            categories: obj.groupkey
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total fruit consumption'
+            }
+        },
+        legend: {
+            backgroundColor: '#FFFFFF',
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal'
+            }
+        },
+            series: [{
+            name: '发明专利',
+            data: obj.inventonPatent
+        }, {
+            name: '实用专利',
+            data: obj.applyNewPatent
+        }]
+    });
+});
+	  
+	  
+   </script>
+   
+</head>
+<body>
+
+ 
+ 
+<script type="text/javascript">  
+//动态绑定下拉框项  
+        function addItems() {  
+            $.ajax({  
+                url: "http://localhost:8080/Data_Visualization/SelectResultServlet",    //后台webservice里的方法名称  
+                type: "post",  
+                dataType: "json",  
+                contentType: "application/json",  
+                traditional: true,  
+                success: function (data) {  
+                    var optionstring = "";  
+                    for (var i=0;i<data.length;i++) {  
+                        optionstring += "<option value=\"" + (i+1) + "\" >" + data[i] + "</option>";  
+                        
+                    }  
+                     $("#dpdField1").html("<option value='请选择'>请选择</option> "+optionstring); 
+                },  
+                error: function (msg) {  
+                    alert("出错了！");  
+                }  
+            });            
+        };  
+         
+    </script>   
+
+<div>
+	<select id="dpdField1">
+	</select>
+	<select id="dpDate">
+	</select>
+	<select id="patentType">
+		<option value="big_group">big_group</option>
+		<option value="small_group">small_group</option>
+	</select>
+	<button id="find">查看</button>
+</div>
+<div id="applyPatentTrend" style="min-width:800px;height:400px;"></div>
+<script type="text/javascript">
+	//动态绑定下拉框项  
+	
+		var url = "/Data_Visualization/SelectResultServlet";
+		$.ajax({
+			type : "post",
+			async : false,
+			url : url,
+			success : function(msg) {
+				data = JSON.parse(msg);
+				var company = data.companyList;
+						var optionstring = "";
+						for ( var i = 0; i < company.length; i++) {
+							optionstring += "<option value=\"" + (i + 1)
+									+ "\" >" + company[i] + "</option>";
+
+						}
+						$("#dpdField1").html(
+								"<option value='请选择'>请选择</option> "
+										+ optionstring);
+										
+				
+				var datelist = data.dateList;
+						var optionstring = "";
+						for ( var i = 0; i < datelist.length; i++) {
+							optionstring += "<option value=\"" + (i + 1)
+									+ "\" >" + datelist[i] + "</option>";
+
+						}
+						$("#dpDate").html(
+								"<option value='请选择'>请选择</option> "
+										+ optionstring);
+				
+			},
+				error : function(msg) {
+						alert("出错了！");
+					}
+				});
+		$('#dpdField1').change(function(){
+		//alert($(this).children('option:selected').text());
+		});
+		
+		$('#find').click(function(){
+			 var company = $('#dpdField1').children('option:selected').text();
+			 var time =$('#dpDate').children('option:selected').text();
+			 var patentType = $('#patentType').children('option:selected').text();
+			 var url = '/Data_Visualization/GroupResultServlet';
+			 $.ajax({
+			 	type:"POST",
+			 	async:true,
+			 	url:url,
+			 	data:{company:company,time:time,patentType:patentType},
+			 	success:function(msg){
+			 		data1 = JSON.parse(msg);
+			 		//alert(data1.groupkey);
+			 		
+			 		 $('#applyPatentTrend').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: '专利信息'
+        },
+        xAxis: {
+            categories: data1.groupkey
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total fruit consumption'
+            }
+        },
+        legend: {
+            backgroundColor: '#FFFFFF',
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal'
+            }
+        },
+            series: [{
+            name: '发明专利',
+            data: data1.inventonPatent
+        }, {
+            name: '实用专利',
+            data: data1.applyNewPatent
+        }]
+    });
+			 	}
+			 });
+		})
+	
+</script>
+
+</body>
+</html>
